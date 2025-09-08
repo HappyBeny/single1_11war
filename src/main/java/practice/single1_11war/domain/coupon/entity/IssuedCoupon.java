@@ -1,17 +1,16 @@
-package practice.single1_11war.domain.order.entity;
+package practice.single1_11war.domain.coupon.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
 import practice.single1_11war.domain.user.entity.User;
 
 import java.time.LocalDateTime;
 
-@Entity
 @Getter
+@Entity
 @NoArgsConstructor
-public class Order {
+public class IssuedCoupon {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,9 +20,12 @@ public class Order {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    private int totalPrice;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "coupon_template_id", nullable = false)
+    private CouponTemplate couponTemplate;
 
-    @CreatedDate
-    @Column(updatable = false)
-    private LocalDateTime orderDate;
+    @Enumerated(EnumType.STRING)
+    private IssuedCouponStatus status;
+
+    private LocalDateTime used_date;
 }
