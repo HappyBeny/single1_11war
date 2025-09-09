@@ -9,6 +9,7 @@ import practice.single1_11war.domain.user.entity.User;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "`order`")
 @Getter
 @NoArgsConstructor
 public class Order {
