@@ -3,7 +3,7 @@ package practice.single1_11war.domain.coupon.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import practice.single1_11war.domain.user.entity.User;
+import practice.single1_11war.domain.member.entity.Member;
 
 import java.time.LocalDateTime;
 
@@ -18,7 +18,7 @@ public class IssuedCoupon {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "coupon_template_id", nullable = false)
