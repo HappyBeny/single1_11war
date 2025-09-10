@@ -15,38 +15,45 @@ public class Member extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @Column(nullable = false, unique = true)
     private String loginId;
 
+    @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false, unique = true)
     private String email;
 
+    @Column(nullable = false)
     private String memberName;
 
+    @Column(nullable = false)
     private String phone;
 
     private String address;
 
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private MemberType memberType;
 
     private String sellerNumber;
 
+    @Column(nullable = false)
     private boolean isDeleted;
 
-    private Member(MemberSignUpRequest request) {
+    private Member(MemberSignUpRequest request, String encodedPW) {
         loginId = request.loginId();
-        password = request.password();
+        password = encodedPW;
         email = request.email();
         memberName = request.memberName();
-        phone = request.phone();
+        phone = "010" + request.phone();
         address = request.address();
         memberType = MemberType.NORMAL;
         isDeleted = false;
     }
 
-    public static Member of(MemberSignUpRequest request) {
-        return new Member(request);
+    public static Member from(MemberSignUpRequest request, String encodedPW) {
+        return new Member(request, encodedPW);
     }
 
     public void changeToSeller(String sellerNumber) {
