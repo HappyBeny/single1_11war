@@ -3,13 +3,12 @@ package practice.single1_11war.domain.member.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import practice.single1_11war.domain.member.dto.request.MemberSignUpRequest;
 import practice.single1_11war.domain.member.dto.response.MemberResponse;
 import practice.single1_11war.domain.member.service.MemberService;
+
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -21,5 +20,15 @@ public class MemberController {
     @PostMapping("/sign-up")
     public MemberResponse signUp(@Valid @RequestBody MemberSignUpRequest request) {
         return memberService.signUp(request);
+    }
+
+    @GetMapping("/{memberId}")
+    public MemberResponse getMember(@PathVariable int memberId) {
+        return memberService.getMember(memberId);
+    }
+
+    @GetMapping
+    public List<MemberResponse> getAllMembersForAdmin() {
+        return memberService.getAllMembersForAdmin();
     }
 }

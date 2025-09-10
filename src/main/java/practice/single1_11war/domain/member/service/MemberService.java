@@ -10,6 +10,8 @@ import practice.single1_11war.domain.member.dto.response.MemberResponse;
 import practice.single1_11war.domain.member.entity.Member;
 import practice.single1_11war.domain.member.repository.MemberRepository;
 
+import java.util.List;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -29,6 +31,18 @@ public class MemberService {
         return MemberResponse.from(member);
     }
 
+    public MemberResponse getMember(int memberId) {
+        Member foundMember = memberRepository.findById(memberId).orElseThrow();
+        validateDeleted(foundMember);
+        return MemberResponse.from(foundMember);
+    }
+
+    public List<MemberResponse> getAllMembersForAdmin() {
+        List<Member> foundMembers = memberRepository.findAll();
+
+        return foundMembers.stream().map(MemberResponse::from).toList();
+    }
+
 
     private void validateDuplicate(MemberSignUpRequest request) {
         if (memberRepository.existsByLoginId(request.loginId())) {
@@ -36,6 +50,12 @@ public class MemberService {
         }
         if (memberRepository.existsByEmail(request.email())) {
             throw new IllegalArgumentException("이미 사용 중인 이메일입니다.");
+        }
+    }
+
+    private void validateDeleted(Member member) {
+        if (member.isDeleted()) {
+            throw new IllegalArgumentException("삭제된 사용자입니다.");
         }
     }
 }
